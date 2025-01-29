@@ -1,0 +1,21 @@
+#shape features .sub file
+
+universe = vanilla
+log = shape_$(Cluster).log
+error = shape_$(Cluster)_$(Process).err
+output = shape_$(Cluster)_$(Process).out
+
+executable = shape_feature_extraction_bashloop.sh
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+transfer_input_files = script.tar.gz, ShapeFeatures.tar.gz, ../ANTS_preprocessing/ANTS.tar.gz, ../ANTS_preprocessing/deformation_features/data/01.tar.gz
+Requirements = (Target.HasCHTCStaging == true)
+
+###### request resoruces
+request_cpus = 2
+request_memory = 12GB
+request_disk = 8GB
+
+queue
+
