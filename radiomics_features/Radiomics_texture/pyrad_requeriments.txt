@@ -1,0 +1,11 @@
+SimpleITK 
+pyradiomics
+pandas
+matplotlib
+nibabel
+scipy
+openpyxl
+nipype
+joblib
+psutil
+numpy==1.24.4

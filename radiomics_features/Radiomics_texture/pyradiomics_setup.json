@@ -1,0 +1,69 @@
+{
+    "mri_mod": "T1_C",
+    "mri_sites": {
+        "site1": "UCSF-PDGM",
+        "site2": "LUMIERE",
+        "site3": "CCF",
+        "site4": "IVYGAP",
+        "site5": "xCures"
+    },
+    "mri_data": "site5",
+    "subdirs": {
+        "subdir1": "Preprocessed",
+        "subdir2": "Preprocessed/Pre-op-Post-op"
+    },
+    "subdir_data": "subdir2",
+    "pipelines": {
+        "pp1": "bias_IntStnd2",
+        "pp2": "SRI24_BiasCorrect_IntStnd",
+        "pp3": "SRI24_SkullS_BiasCorrect_IntStnd"
+    },
+    "pipeline": "pp3",
+    "masks": {
+        "mask1": "tumor_segmentation",
+        "mask2": "tumor_segmentation_brats_SRI24",
+        "mask3": "SRI24_brats",
+        "mask4": "brats_SRI24",
+        "mask5": "brats_SRI24"
+    },
+    "mask_str": "mask5",
+    "brain_mask_str": "brain_segmentation",
+    "time_point": {
+        "tp1": "Baseline",
+        "tp2": "time01"
+    },
+    "tp": "tp1",
+    "habitats": {
+        "RoI1": "Edema",
+        "RoI2": "Enhancing",
+        "RoI3": "All_tumor"
+    },
+    "habitat": "RoI1",
+    "feature_family": {
+        "feat1": "glcm",
+        "feat2": "Collage",
+        "feat3": "shape",
+        "feat4": "Texture",
+        "feat5": "TextureShape",
+        "feat6": "GLiODIL_topology",
+        "feat7": "glcmShapeBioM",
+        "feat8": "Democlinics"
+    },
+    "feature": "feat1",
+    "feature_folders": {
+        "folder_glcm": "haralick_py_RSNA",
+        "folder_collage": "collage",
+        "folder_texture": "texture"
+    },
+    "feat_folder": "folder_glcm",
+    "mat_str": "pp2_annots.csv",
+    "plot_feature_map": false,
+    "root_path": "/app/Data/_Brain/Radiology/_Adult/_Glioma",
+    "output_features": "Feature_extraction/Radiomics_features",
+    "output_fmatrix": "Feature_extraction/Feature_matrix",
+    "label_val": 2,
+    "id1": 0,
+    "batch_size": 5,
+    "batch": "01",
+    "port": "92"
+}
