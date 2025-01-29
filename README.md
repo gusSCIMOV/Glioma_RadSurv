@@ -1,2 +1,22 @@
 # Glioma_RadSurv
 Radiomics and Machine learning pipeline for Survival Analysis
+├── radiomics_rscore_main.py
+├── config
+│   ├── general_config.yml
+│   ├── preprocessing.yml
+│   ├── analysis.yml
+│   └── postprocessing.yml
+
+├── utils
+│   ├── __init__.py
+│   └── config_loader.py
+└── requirements.txt
+
+├── modules/               # Folder for organized functionalities.
+│   ├── __init__.py        # Makes the folder a Python package.
+│   ├── preprocessing.py   # Functions/classes for data preprocessing.
+│   ├── segmentation.py    # ANTs-specific registration methods.
+│   ├── radiomics.py       # Plotting or UMAP-related utilities.
+│   └── Survival_model.py  # Post-registration steps (e.g., inverse transforms).
+│   |── Feature_visualization.py  # Post-registration steps (e.g., inverse transforms).
+│
