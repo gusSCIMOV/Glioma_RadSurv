@@ -1,0 +1,26 @@
+{
+    "mri_mod": "T1_C",
+    "mri_sites": {
+        "site1": "UCSF-PDGM",
+        "site2": "LUMIERE",
+        "site3": "CCF",
+        "site4": "IVYGAP",
+        "site5": "xCures",
+        "site6": "TCGA-GBM"
+    },
+    "mri_data": "site6",
+    "subdirs": {
+        "subdir1": "Raw_nifti",
+        "subdir2": "Preprocessed",
+        "subdir3": "_Preprocessed_UPenn"
+    },
+    "subdir_data": "subdir3",
+
+    "root_path": "/app/Data/_Brain/Radiology/_Adult/_Glioma",
+    "output_folder": "Metadata",
+
+    "id1": 0,
+    "batch_size": 5,
+    "batch": "01",
+    "port": "92"
+}
