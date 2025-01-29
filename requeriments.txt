@@ -1,0 +1,11 @@
+# dicom conversion
+dicom2nifti
+pydicom
+PyYAML
+
+# MRI preprocessing
+nilearn
+antspyx
+reorient_nii
+openpyxl
+
