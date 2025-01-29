@@ -1,0 +1,2 @@
+analysis_method: "radiomics"
+features_to_extract: ["shape", "texture", "intensity"]

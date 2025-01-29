@@ -1,0 +1,36 @@
+
+dirs:
+  input_dicoms: '_testDicom'
+  raw_nifti: '_test_raw_nifti'
+  preprocessed: "_test_preprocessed"
+  metadata: "Metadata"
+
+#pre-processign pipelines / parameters
+ 
+preprocessing_settings:
+  query_nifti_file: 'niiQuery.csv'
+  acquisition_tag: 'Baseline'
+  query_key: 'included_modality'
+
+ants_preprocessing:
+  first_step: 
+    name: "T1c_SRI24Map"
+    mri_str: "T1c" 
+    atlas_str: "SRI24"
+    aff_metric : "mattes"
+    type_of_transform : "Affine"
+    transforming_mask: False
+    SkullStripp: None # HD_BET or Atlas_mask Default= None
+
+  second_step: "T1c_coregistration"
+  third_step:  "HD_SkullStripp"
+  fourth_step: "N4Bias_correction"
+  fifth_step:  "IntensityScaling"
+
+# image_resize:
+#   first_step: "T1c_coregistration"
+#   second_step:  "HD_SkullStripp"
+#   third_step: "N4Bias_correction"
+#   fourth_step:  "ants_resampling"
+
+  
