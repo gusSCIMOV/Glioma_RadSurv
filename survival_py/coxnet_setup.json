@@ -1,0 +1,61 @@
+{
+    "method": "coxnet",
+    "mri_mod": "",
+    "mri_sites": [
+        "UCSF-PDGM",
+        "LUMIERE",
+        "CCF",
+        "IVYGAP",
+        "xCures"
+    ],
+    "time_point": {
+        "tp1": "Baseline",
+        "tp2": "Delta"
+    },
+    "tp": "",
+    "habitats": {
+        "RoI1": "Edema",
+        "RoI2": "Enhancing",
+        "RoI3": "All_tumor"
+    },
+    "habitat": "",
+    "features": {
+        "feat1": "glcm",
+        "feat2": "Collage",
+        "feat3": "shape",
+        "feat4": "Texture",
+        "feat5": "glcmShape",
+        "feat6": "glcmBioM",
+        "feat7": "glcmShapeBioM",
+        "feat8": "CollageShape",
+        "feat9": "CollageBioM",
+        "feat10": "CollageShapeBioM",
+        "feat11": "TextureShape",
+        "feat12": "TextureBioM",
+        "feat13": "TextureShapeBioM",
+        "feat14": "GLiODIL_params",
+        "feat15": "GLiODIL_topology",
+        "feat16": "EDglcm_AllTexture",
+        "feat17": "EDglcm_AllTextureBioM",
+        "feat18": "DemoClinics"
+
+    },
+    "feature": "",
+    "mat_str": "pp2_annots.csv",
+    "out_folder":"_Survival_prediction",
+    "subsampling_test": false,
+    "run_test":false,
+    "random_state": [],
+    "train_ids": [],
+    "val_fraction": [],
+    "test_fraction": [],
+    "test_ids": [],
+    "var_threshold": [],
+    "feat_onset": 3,
+    "n_splits": 5,
+    "lambda_l1": 1,
+    "n_alphas": 10,
+    "mx_iters":10,
+    "alpha_min":0.01,
+    "n_jobs":1
+}
