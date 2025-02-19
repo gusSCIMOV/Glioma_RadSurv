@@ -44,9 +44,31 @@ pip install -r requirements.txt
 ```
 
 ## **Modules Configuration**
+See the ./config files 
+# **General Seetings (main.ymal)**
 ```yaml
-congfigs: "yes"
 
+root_path: 'Y:/Groups/IDIAGroup/Data/_Brain/Radiology/_Adult/_Glioma' # data path
+root_path : ~./data # to use the project's data sample 
+
+mri_sites:  # add as many dataset as nedeed (coded by site{n})
+  site0: "UCSF-PDGM"
+  site1: "LUMIERE"
+  site2: "CCF"
+
+mri_data: ["site1", "site2"] # data to be included in the pipeline
+
+submodule_configs:
+  preprocessing: "config/preprocessing_config.yaml"
+  radiomics: "config/radiomics_config.yaml"
+
+# Enabling modules
+run_dicomSelection: True
+run_dicomConversion: False
+run_niftiSelection: False 
+run_preprocessing: False
+run_segmentation: False
+run_radiomics: True
 
 ```
 
