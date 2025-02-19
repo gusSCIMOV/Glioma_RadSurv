@@ -21,15 +21,15 @@ This repository contains a Python-based pipeline for computing a **Radiomics Ris
 
 ---
 
-## **Installation**
+## **Installation and requeriments**
 To set up the project environment, follow these steps:
 
 ```sh
 # Clone this repository
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO.git
+git clone https://github.com/gusSCIMOV/Glioma_RadSurv
 
 # Change directory
-cd YOUR-REPO
+cd Glioma_RadSurv
 
 # Create a virtual environment (optional but recommended)
 python -m venv venv
