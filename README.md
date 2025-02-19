@@ -44,8 +44,31 @@ pip install -r requirements.txt
 ```
 
 ## **Data Preparation**
+Data is expected to have this Hierarchy
+```txt
+Main UCSF (example)​
 
+ |--Raw​
 
+|---{Patient_ID}​
+      | --time_point_0​
+      | {patient_ID}_T1.nii.gz​
+      | {patient_ID}_T2.nii.gz​
+      | {patient_ID}_T1_C.nii.gz​
+      | {patient_ID}_FLAIR.nii.gz.​
+
+|--Preprocessed​
+
+|---{Patient_ID}​
+      | --time_point_0​
+      | {patient_ID}_T1_{pipeline}.nii.gz​
+      | {patient_ID}_T2_{pipeline}.nii.gz​
+      | {patient_ID}_T1c_{pipeline}.nii.gz​
+      | {patient_ID}_FLAIR_{pipeline}.nii.gz​
+
+| {patient_ID}_segmentation_{network}.nii.gz
+
+```
 
 ## **Modules Configuration**
 See the ./config files 
