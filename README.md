@@ -45,10 +45,14 @@ pip install -r requirements.txt
 
 ## **Modules Configuration**
 See the ./config files 
-# **General Seetings (main.ymal)**
+
+### **General Seetings (main.ymal)**
+
+Modify the dict entries accordingly. Enable the desired steps (by settimng True).
+
 ```yaml
 
-root_path: 'Y:/Groups/IDIAGroup/Data/_Brain/Radiology/_Adult/_Glioma' # data path
+#root_path: 'Y:/Groups/IDIAGroup/Data/_Brain/Radiology/_Adult/_Glioma' # data root path in your volume/system
 root_path : ~./data # to use the project's data sample 
 
 mri_sites:  # add as many dataset as nedeed (coded by site{n})
@@ -71,4 +75,53 @@ run_segmentation: False
 run_radiomics: True
 
 ```
+### **Preprocessing Seetings (main.ymal)**
+
+```yaml
+dirs:
+  raw_dicoms: 'dicom_raw'
+  input_dicoms: 'dicom_structuralMRI'
+  raw_nifti: '_test_raw_nifti'
+  preprocessed: "_test_preprocessed"
+  metadata: "Metadata"
+
+#pre-processign pipelines / parameters
+ 
+preprocessing_settings:
+  query_nifti_file: 'niiQuery.csv'
+  acquisition_tag: 'Baseline'
+  query_key: 'included_modality'
+  mri_modalities: ["T1c","T1","T2","FLAIR"]
+
+ants_preprocessing:
+  first_step: 
+    name: "Modality_2_atlas_reg"
+    mri_str: "T1c" 
+    atlas_str: "SRI24"
+    ext: ".nii.gz"
+    mask_str: None
+    aff_metric : "mattes"
+    type_of_transform : "Affine"
+    transforming_mask: False
+    brain_mask: None # HD_BET or Atlas_mask Default= None
+
+  second_step: 
+    name: "Modalities_coregistration"
+    ext: ".nii.gz"
+    aff_metric : "mattes"
+    type_of_transform : "Affine"
+    transforming_mask: False
+    SkullStripp: None # HD_BET or Atlas_mask Default= None
+
+  third_step: 
+    name: "HD_SkullStripp"
+
+  fourth_step: 
+    name: "N4Bias_correction"
+  fifth_step:  
+    name: "IntensityScaling"
+
+```
+
+
 
