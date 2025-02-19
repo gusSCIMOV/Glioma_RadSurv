@@ -44,4 +44,9 @@ pip install -r requirements.txt
 ```
 
 ## **Modules Configuration**
+```yaml
+congfigs: "yes"
+
+
+```
 
