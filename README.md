@@ -24,9 +24,9 @@ This repository contains a Python-based pipeline for computing a **Radiomics Ris
 ## **Installation**
 System Requeriments:
 
-*Python =+3.9
-*nvcr.io/nvidia/pytorch:24.01-py3
-*Ubuntu 22.04
+* Python =+3.9
+* nvcr.io/nvidia/pytorch:24.01-py3
+* Ubuntu 22.04
 
 To set up the project environment, follow these steps:
 
