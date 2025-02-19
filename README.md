@@ -10,7 +10,7 @@ see the project_tree.txt to look at the project hierarchy
 This repository contains a Python-based pipeline for computing a **Radiomics Risk Score (RRS)** for survival stratification in gliomas. The pipeline integrates morphological, textural, and biophysically informed signatures using multiple preprocessing and machine learning techniques.
 
 ## **Framework Overview**
-- [Installation](#installation)
+- [Installation and requeriments](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Modules Overview](#modules-overview)
