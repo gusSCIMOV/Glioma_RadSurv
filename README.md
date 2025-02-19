@@ -78,20 +78,19 @@ run_radiomics: True
 ### **Preprocessing Seetings (preprocessing_config.ymal)**
 
 ```yaml
-dirs:
+dirs:  # Modify the parent directories which store the preprocessing steps outputs and log files 
   raw_dicoms: 'dicom_raw'
   input_dicoms: 'dicom_structuralMRI'
-  raw_nifti: '_test_raw_nifti'
-  preprocessed: "_test_preprocessed"
+  raw_nifti: 'nifti_raw'
+  preprocessed: "nifti_preprocessed"
   metadata: "Metadata"
 
-#pre-processign pipelines / parameters
- 
+#pre-processign pipelines / parameters 
 preprocessing_settings:
-  query_nifti_file: 'niiQuery.csv'
-  acquisition_tag: 'Baseline'
-  query_key: 'included_modality'
-  mri_modalities: ["T1c","T1","T2","FLAIR"]
+  query_nifti_file: 'niiQuery.csv' # {dataset}_niiQuery.csv contains the 4 MRI modalities to be included (see oen example at ~./data/TCGA-GBM/Metadata)
+  acquisition_tag: 'Baseline' # time point to be analyzed
+  query_key: 'included_modality' #df key inside of 
+  mri_modalities: ["T1c","T1","T2","FLAIR"] # Strcutural MRI identifiers (strings. T1c might be also eferred as T1gd)
 
 ants_preprocessing:
   first_step: 
