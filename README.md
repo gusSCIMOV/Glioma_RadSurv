@@ -46,7 +46,7 @@ pip install -r requirements.txt
 ## **Modules Configuration**
 See the ./config files 
 
-### **General Seetings (main.ymal)**
+### **General Seetings (main_config.ymal)**
 
 Modify the dict entries accordingly. Enable the desired steps (by settimng True).
 
@@ -75,7 +75,7 @@ run_segmentation: False
 run_radiomics: True
 
 ```
-### **Preprocessing Seetings (main.ymal)**
+### **Preprocessing Seetings (preprocessing_config.ymal)**
 
 ```yaml
 dirs:
