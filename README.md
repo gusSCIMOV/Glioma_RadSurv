@@ -22,6 +22,9 @@ This repository contains a Python-based pipeline for computing a **Radiomics Ris
 ---
 
 ## **Installation**
+Requeriments:
+Python 3.9+
+
 To set up the project environment, follow these steps:
 
 ```sh
