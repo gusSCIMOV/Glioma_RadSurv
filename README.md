@@ -11,11 +11,10 @@ This repository contains a Python-based pipeline for computing a **Radiomics Ris
 
 ## **Framework Overview**
 - [Installation](#installation)
-- [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Modules Overview](#modules-overview)
 - [Configuration](#configuration)
-- [Dependencies](#dependencies)
+- [Usage](#usage)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 
@@ -25,7 +24,7 @@ This repository contains a Python-based pipeline for computing a **Radiomics Ris
 System Requeriments:
 
 * Python =+3.9
-* nvcr.io/nvidia/pytorch:24.01-py3
+* docker: nvcr.io/nvidia/pytorch:24.01-py3
 * Ubuntu 22.04
 
 To set up the project environment, follow these steps:
@@ -37,10 +36,10 @@ git clone https://github.com/gusSCIMOV/Glioma_RadSurv
 # Change directory
 cd Glioma_RadSurv
 
-# Create a virtual environment (optional but recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
 # Install dependencies
 pip install -r requirements.txt
+```
 
+
+## **Installation**
+System Requeriments:
