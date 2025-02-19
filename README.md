@@ -43,6 +43,10 @@ cd Glioma_RadSurv
 pip install -r requirements.txt
 ```
 
+## **Data Preparation**
+
+
+
 ## **Modules Configuration**
 See the ./config files 
 
@@ -121,6 +125,19 @@ ants_preprocessing:
     name: "IntensityScaling"
 
 ```
+---
+## **Usage**
 
+
+```sh
+
+# Change directory
+cd Glioma_RadSurv
+
+# run the main()
+
+python radiomics_rscore_main.py
+
+```
 
 
