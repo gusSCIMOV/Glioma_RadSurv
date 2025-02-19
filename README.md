@@ -44,30 +44,38 @@ pip install -r requirements.txt
 ```
 
 ## **Data Preparation**
-Data is expected to have this Hierarchy
+Input (nifti_raw) and output (preprocessed) Data is expected to have this Hierarchy (below) per MRI collection. It is 
 ```txt
-Main UCSF (example)​
 
- |--Raw​
+|TCGA-GBM (site1)
 
-|---{Patient_ID}​
-      | --time_point_0​
-      | {patient_ID}_T1.nii.gz​
-      | {patient_ID}_T2.nii.gz​
-      | {patient_ID}_T1_C.nii.gz​
-      | {patient_ID}_FLAIR.nii.gz.​
+|--dicom_structuralMRI
+   |---{Patient_ID}​
+         | --time_point_0​ (or Baseline for Pre-Op)
+         | {patient_ID}_{Ax T1} (dcm folder)
+         | {patient_ID}_{Ax [T2, GRE]}​ (dcm folder)
+         | {patient_ID}_{Ax 3D [SPGR T1 c+ gd]} (dcm folder)​
+         | {patient_ID}_{Ax T2-FLAIR} (dcm_folder)
+ |--nifti_raw
+    |---{Patient_ID}​
+         | --time_point_0​ (or Baseline for Pre-Op)
+         | {patient_ID}_T1.nii.gz​
+         | {patient_ID}_T2.nii.gz​
+         | {patient_ID}_T1_C.nii.gz​
+         | {patient_ID}_FLAIR.nii.gz.​
+  |--preprocessed​
+     |---{Patient_ID}​
+          | --time_point_0​ (or Baseline for Pre-Op)
+          | {patient_ID}_T1_{pipeline}.nii.gz​
+          | {patient_ID}_T2_{pipeline}.nii.gz​
+          | {patient_ID}_T1c_{pipeline}.nii.gz​
+          | {patient_ID}_FLAIR_{pipeline}.nii.gz​
+          |---{patient_ID}_segmentation_{network}.nii.gz
 
-|--Preprocessed​
-
-|---{Patient_ID}​
-      | --time_point_0​
-      | {patient_ID}_T1_{pipeline}.nii.gz​
-      | {patient_ID}_T2_{pipeline}.nii.gz​
-      | {patient_ID}_T1c_{pipeline}.nii.gz​
-      | {patient_ID}_FLAIR_{pipeline}.nii.gz​
-
-| {patient_ID}_segmentation_{network}.nii.gz
-
+  |--Metadata​
+   --{data_set}_lables.csv (survival times, demographics, clinics: final datset)​
+   --{data_set}_QC.xlsx (Quality check results, missing modality, low quality images)​
+   --{data_set}_completness.xlsx (other dataset annotations, info)​
 ```
 
 ## **Modules Configuration**
