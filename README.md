@@ -10,15 +10,18 @@ see the project_tree.txt to look at the project hierarchy
 This repository contains a Python-based pipeline for computing a **Radiomics Risk Score (RRS)** for survival stratification in gliomas. The pipeline integrates morphological, textural, and biophysically informed signatures using multiple preprocessing and machine learning techniques.
 
 ## **Framework Overview**
-- [Installation](#installation)
 - [Project Structure](#project-structure)
-- [Modules Overview](#modules-overview)
-- [Configuration](#configuration)
+- [Installation](#installation)
+- [Modules Configuration](#modules-configuration)
 - [Usage](#usage)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 
 ---
+
+## **Project Structure**
+
+Look at the project_tree.txt to see the folder hierarchy
 
 ## **Installation**
 System Requeriments:
@@ -31,7 +34,7 @@ To set up the project environment, follow these steps:
 
 ```sh
 # Clone this repository
-git clone https://github.com/gusSCIMOV/Glioma_RadSurv
+git clone https://github.com/gusSCIMOV/Glioma_RadSurv.git
 
 # Change directory
 cd Glioma_RadSurv
@@ -40,6 +43,5 @@ cd Glioma_RadSurv
 pip install -r requirements.txt
 ```
 
+## **Modules Configuration**
 
-## **Installation**
-System Requeriments:
