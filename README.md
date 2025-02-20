@@ -41,6 +41,7 @@ cd Glioma_RadSurv
 
 # Install dependencies
 pip install -r requirements.txt
+bash bash_requeriments.sh 
 ```
 
 ## **Data Preparation**
@@ -119,6 +120,7 @@ dirs:  # Modify the parent directories which store the preprocessing steps outpu
   raw_nifti: 'nifti_raw'
   preprocessed: "nifti_preprocessed"
   metadata: "Metadata"
+  logs: "Logs"
 
 #pre-processign pipelines / parameters 
 preprocessing_settings:
@@ -166,7 +168,6 @@ ants_preprocessing:
 cd Glioma_RadSurv
 
 # run the main()
-
 python radiomics_rscore_main.py
 
 ```
