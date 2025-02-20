@@ -113,6 +113,10 @@ run_radiomics: True
 ```
 ### **Preprocessing Seetings (preprocessing_config.ymal)**
 
+MRi preprocessig can be set via the preprocessing_config.ymal either for the ANTs or FeTs pipeline
+
+## **ANTs Pipeline**
+
 ```yaml
 dirs:  # Modify the parent directories which store the preprocessing steps outputs and log files 
   raw_dicoms: 'dicom_raw'
@@ -158,6 +162,21 @@ ants_preprocessing:
     name: "IntensityScaling"
 
 ```
+## **FeTs Pipeline (The Federated Tumor Segmentation)
+
+```md
+
+Check out this related project: [Awesome Repo](https://fets-ai.github.io/Front-End/process_data#pre-processing)
+
+```
+
+Modify the preprocessing_config.ymal.
+
+
+```yaml
+coming soon !
+```
+
 ---
 ## **Usage**
 
