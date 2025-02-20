@@ -84,7 +84,7 @@ See the ./config files
 
 ### **General Seetings (main_config.ymal)**
 
-Modify the dict entries accordingly. Enable the desired steps (by settimng True).
+Modify the dict entries accordingly. Enable the desired steps (by setting True).
 
 ```yaml
 
@@ -176,6 +176,12 @@ Modify the preprocessing_fets_config.ymal accordingly
 ```yaml
 coming soon !
 ```
+---
+
+
+## **Segmentation (SwinTransformer and FeTs)**
+
+
 
 ---
 ## **Usage**
