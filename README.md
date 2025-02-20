@@ -166,11 +166,11 @@ ants_preprocessing:
 
 ```md
 
-Check out this related project: [Awesome Repo](https://fets-ai.github.io/Front-End/process_data#pre-processing)
+Check out this related project: [Processing the Data for FeTS](https://fets-ai.github.io/Front-End/process_data#pre-processing)
 
 ```
 
-Modify the preprocessing_config.ymal.
+Modify the preprocessing_fets_config.ymal accordingly
 
 
 ```yaml
