@@ -115,7 +115,7 @@ run_radiomics: True
 
 MRi preprocessig can be set via the preprocessing_config.ymal either for the ANTs or FeTs pipeline
 
-## **ANTs Pipeline**
+#### **ANTs Pipeline**
 
 ```yaml
 dirs:  # Modify the parent directories which store the preprocessing steps outputs and log files 
@@ -162,7 +162,7 @@ ants_preprocessing:
     name: "IntensityScaling"
 
 ```
-## **FeTs Pipeline (The Federated Tumor Segmentation)**
+#### **FeTs Pipeline (The Federated Tumor Segmentation)**
 
 ```md
 
