@@ -162,7 +162,7 @@ ants_preprocessing:
     name: "IntensityScaling"
 
 ```
-## **FeTs Pipeline (The Federated Tumor Segmentation)
+## **FeTs Pipeline (The Federated Tumor Segmentation)**
 
 ```md
 
