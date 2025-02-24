@@ -70,15 +70,19 @@ Input (nifti_raw) and output (preprocessed) Data is expected to have this Hierar
          | --time_point_0​ (or Baseline for Pre-Op)
          | {patient_ID}_T1.nii.gz​
          | {patient_ID}_T2.nii.gz​
-         | {patient_ID}_T1_C.nii.gz​
-         | {patient_ID}_FLAIR.nii.gz.​
+         | {patient_ID}_T1c.nii.gz​
+         | {patient_ID}_FLAIR.nii.gz
 
   |--preprocessed​   (after preprocessing)
      |---{Patient_ID}​
           | --time_point_0​ (or Baseline for Pre-Op)
+          | {patient_ID}_T1.nii.gz​
           | {patient_ID}_T1_{pipeline}.nii.gz​
+          | {patient_ID}_T2.nii.gz​
           | {patient_ID}_T2_{pipeline}.nii.gz​
+          | {patient_ID}_T1_C.nii.gz​
           | {patient_ID}_T1c_{pipeline}.nii.gz​
+          | {patient_ID}_FLAIR.nii.gz
           | {patient_ID}_FLAIR_{pipeline}.nii.gz​
           |---{patient_ID}_segmentation_{network}.nii.gz
 
