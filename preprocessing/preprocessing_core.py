@@ -2,30 +2,44 @@ import os
 import logging
 import pandas as pd
 
-from utils.config_loader import *
 from preprocessing.dicom_handling import DicomConversion # class
+from utils.config_loader import *
 from preprocessing.antspy_pp_utils import *
+from preprocessing.Select4modalities import *
 from utils.generic import *
 
 logger = logging.getLogger(__name__)
 
 def MRI_preprocessing(configs, project_path):
 
-    config=Config2Struct(configs["general"])
-    root_path = config.root_path
-    mri_data=config.mri_data
+    gen_config=Config2Struct(configs["general"])
+    gen_config.project_path=project_path
+    root_path = gen_config.root_path
+    mri_data=gen_config.mri_data
 
     dirs = Config2Struct(configs["preprocessing"]["dirs"])
+    pp_settings = Config2Struct(configs["preprocessing"]["preprocessing_settings"])
 
-    filtered_sites=[dataset for key , dataset in config.mri_sites.items() if key in mri_data] # setting target datasets
+    filtered_sites=[dataset for key , dataset in gen_config.mri_sites.items() if key in mri_data] # setting target datasets
     
     for dataset in filtered_sites:
 
         id_tag=dataset
-        
-        if config.run_dicomConversion:  # running dicom to nifti conversion (set input and output directory)
+        log_path=os.path.join(root_path,dataset,dirs.logs)
+
+        if gen_config.run_dicomSelection:
+            
+            logger.info(safe_log(f"{dataset} Starting dicom selection"))
+
+            raw_dcm_path=os.path.join(root_path,dataset,dirs.raw_dicoms)
+            dcm_path=os.path.join(root_path,dataset,dirs.input_dicoms)
+
+            DicomSelection(raw_dcm_path, dcm_path, log_path, n_studies=1) # from ./preprocessing.Select4modalities
+
+
+        if gen_config.run_dicomConversion:  # running dicom to nifti conversion (set input and output directory)
                 
-            logger.info(f"✅ Starting dicom conversion")
+            logger.info(safe_log(f"{dataset} Starting dicom conversion"))
                     
             dcm_path=os.path.join(root_path,dataset,dirs.input_dicoms)
             nii_gz_path=os.path.join(root_path,dataset,dirs.raw_nifti)
@@ -33,36 +47,40 @@ def MRI_preprocessing(configs, project_path):
             dcm_converter.convert_dataset_to_nifti()
 
 
-            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.metadata)
+            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.metadata) # from utils.generic
             MRIQc.browse_nifti_modalities(time_format='dates',modalities_list=True, write_csv=True)
             MRIQc.browse_nifti_modalities(time_format='dates',summary=True, write_csv=True)
 
-            logger.info(f"✅ DICOM CONVERSION DONE FOR {dataset}")
+            logger.info(safe_log(f" DICOM CONVERSION DONE FOR {dataset}"))
 
-        if config.run_niftiSelection: # run quality check to retrieve the structural modalities:
+        if gen_config.run_niftiSelection: # run quality check to retrieve the structural modalities:
 
-            logger.info(f"✅ Starting Nifti selection for {dirs.raw_nifti} ")
+            logger.info(safe_log(f" Starting Nifti selection for {dirs.raw_nifti} "))
 
-            pp_settings = Config2Struct(configs["preprocessing"]["preprocessing_settings"])
-            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.metadata)
+            
+            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.metadata) # from utils.generic
             MRIQc.copy_and_rename_files(pp_settings, dirs.raw_nifti, dirs.preprocessed)
             
-            logger.info(f"✅ Nifti SELECTION DONE for {dataset}")
+            logger.info(safe_log(f" Nifti SELECTION DONE for {dataset}"))
 
 
-        if config.run_preprocessing:  # set the customized pipeline (preprocessing_config.yaml)
+        if gen_config.run_preprocessing:  # set the customized pipeline (preprocessing_config.yaml)
 
-            logger.info(f"✅ Starting MRI Preprocessing")
+            logger.info(safe_log(f" Starting MRI Preprocessing"))
 
             pp_config = Config2Struct(configs["preprocessing"]["ants_preprocessing"])
-            get_config_params(pp_config) # print Config attributtes 
+            #get_config_params(pp_config) # print Config attributtes 
 
-            for key, value in vars(pp_config).items():
-                print(f"{key} {value}")
+            MRIpp=MRIPreprocessing(dataset, dirs, gen_config, pp_settings, pp_config) # from preprocessing.ants_pp_utils
+            
+            MRIpp.run_pipeline()
+
+
 
             
-            #atlas_path= project_path +'/preprocessing/ATLAS_T1/'+ atlas_str +'/templates/T1_brain.nii'
-             
+            
+
+                         
             # if pp_config.xlsx_file != None:
 
             #     labels, imgs_list = getting_image_list(root_path, mri_data,subdir,time_point,mri_mod,pipeline,ext,mask_str)

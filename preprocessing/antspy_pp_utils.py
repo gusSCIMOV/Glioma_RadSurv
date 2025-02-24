@@ -6,9 +6,11 @@ import nilearn
 import nibabel as nb
 import pandas as pd
 import ants
+import logging
 import matplotlib.pyplot as plt
 
 from pathlib import Path
+from collections import OrderedDict
 from ants import resample_image
 from reorient_nii import get_orientation
 from reorient_nii import load
@@ -18,6 +20,131 @@ from nilearn.image import resample_to_img
 from ants import get_ants_data, image_read, resample_image, get_mask
 from pathlib import Path
 from tempfile import mkstemp
+from utils.config_loader import *
+from utils.generic import *
+
+class MRIPreprocessing:
+    # intiate and run sequential-step by step preprocessing pipelines in preprocessing_config.yaml
+    def __init__(self,dataset, dirs, gen_config, pp_setting, pp_config):
+        self.dataset= dataset
+        self.input_dir=os.path.join(gen_config.root_path,dataset,dirs.preprocessed)
+        self.dirs=dirs
+        self.gen_config=gen_config
+        self.pp_config=pp_config
+        self.pp_settings=pp_setting
+        
+        self.logger = logging.getLogger(self.__class__.__name__) 
+
+    
+    def run_pipeline(self):
+
+
+        for stepp, params in vars(self.pp_config).items():
+            self.params=Config2Struct(params)
+            self.logger.info(f" PREPROCESSING {stepp} >>> {self.params.name}") # check config.preprocessing_config.yaml order is correct
+
+            if self.params.name == "Modality_2_atlas_reg":
+                
+                # set reference imgage (atlas)
+                atlas_path= os.path.join(self.gen_config.project_path,'preprocessing/ATLAS_T1',
+                                        self.params.atlas_str,'templates')
+
+                atlas_path += '/T1_brain.nii' if self.params.brain_mask is not None else '/T1.nii'
+                
+                self.mri_ref=self.params.mri_str # save the reference MRI modality
+                self.imgs, labels = getting_image_list(self.input_dir,
+                                                  self.pp_settings.acquisition_tag, 
+                                                  self.mri_ref,
+                                                  self.params.ext,
+                                                  self.params.mask_str)
+                self.logger.debug('number of MRI scans: {} , for MRI modality: {}'.format(len(self.imgs), self.params.mri_str))
+
+                self.atlas_regis_ls=[]
+                for im in self.imgs:
+                    registered_path, id_label=mri_coregistration(im,self.params.ext,
+                                        self.params.type_of_transform,
+                                        self.params.aff_metric,
+                                        self.dirs.preprocessed, #input subdir
+                                        self.dirs.preprocessed, #output subdir
+                                        atlas_path=atlas_path,
+                                        atlas_str=self.params.atlas_str,
+                                        mapping="forward_mapping", 
+                                        write_registered=True, ID_level=-3)
+                    self.atlas_regis_ls.append((im,registered_path))
+                
+            if self.params.name == "Modalities_coregistration":
+                
+                mri_ls= list(filter(lambda x: x != self.mri_ref, self.pp_settings.mri_modalities)) # filtering ref mri (first step)
+                coregist_ls=[]
+
+                for im , reference_mri in self.atlas_regis_ls:
+                    #print("debug ....",im, reference_mri)        
+                    mods_coregist={} # initialize log dict
+                    for mri_mod in mri_ls:  
+                        mods_coregist.update({mri_mod: "NO_Modality"})
+                    
+                    id_label=Path(im).parts[-3] # Should be included in config_preprocessing.yaml
+
+                    for mri_mod in mri_ls:
+                        mov_im=im.replace(self.mri_ref,mri_mod)
+                        
+                        if os.path.exists(mov_im):
+                            registered_path, _ = mri_coregistration(mov_im, self.params.ext,
+                                                self.params.type_of_transform,
+                                                self.params.aff_metric,
+                                                self.dirs.preprocessed, #input subdir
+                                                self.dirs.preprocessed, #output subdir
+                                                template=reference_mri,
+                                                mapping="forward_mapping", 
+                                                write_registered=True, ID_level=-3) 
+                            
+                            mods_coregist.update({mri_mod: registered_path})
+                            
+                        else:
+                            continue
+
+                    mods_coregist = OrderedDict([('ID', id_label)] + 
+                                                [(self.mri_ref, reference_mri)] +
+                                                list(mods_coregist.items()))
+                           
+                    coregist_ls.append(mods_coregist)
+
+                self.coregist_df=pd.DataFrame(coregist_ls)
+                self.out_df=os.path.join(self.gen_config.root_path,self.dataset,self.dirs.metadata)
+                os.makedirs(self.out_df, exist_ok=True)
+                outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
+                self.coregist_df.to_csv(outfile, index=False)
+            
+            if self.params.name == "HD_SkullStripp":
+
+                logging.debug("HD-BET Skull Stripping, fix around to enable alimited number of GPUs")
+                self.skulls_df = self.coregist_df.copy()
+                ssimages=[]
+                # reference image    
+                for ind,im in enumerate(self.coregist_df.iloc[:, 1].tolist()):
+                    try:
+                        masked_im, brain_mask=SkullStrip_HD_Bet(im, cuda_device="cuda")
+                        ssimages.append((masked_im,brain_mask))
+                        self.skulls_df.iloc[ind,1]=masked_im
+                        print("masked_im >>>>>", masked_im)
+
+                            
+                    except Exception as e:
+                        print(f"\n any exception ocurred {e}")
+                        continue 
+
+                # remaining modalities
+                for ind, (_, brain_mask) in enumerate(ssimages): 
+                    for col in self.coregist_df.columns[2:]:  # I
+                        mri_mod = self.coregist_df.loc[ind, col]
+
+                        if mri_mod != "NO_Modality":
+                            masked_im=SkullStripp_WithMask(mri_mod, brain_mask)
+                            self.skulls_df.loc[ind,col]=masked_im
+            
+                os.makedirs(self.out_df, exist_ok=True)
+                outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
+                self.skulls_df.to_csv(outfile, index=False)
 
 
 def mri_coregistration(im,ext,type_transform,aff_metric,subdir,out_subdir,
@@ -54,7 +181,7 @@ def mri_coregistration(im,ext,type_transform,aff_metric,subdir,out_subdir,
     if os.path.exists(omoving_t1):
         print(f" {omoving_t1} already exists")
         os.remove(moving_t1)
-        return omoving_t1
+        return omoving_t1, id_label
 
     #  >>>> Segmentations (RoI and Brain mask) Pre-aligment  / output paths
 
@@ -131,7 +258,8 @@ def mri_coregistration(im,ext,type_transform,aff_metric,subdir,out_subdir,
         os.remove(moving_brainmask)
 
     print(f"\n{mapping} completed for {id_label}")
-    return omoving_t1
+
+    return omoving_t1, id_label
 
 
 def run_forward_coregistration(fixed_im=None,moving_im=None,
@@ -336,24 +464,28 @@ def SkullStripp_WithMask(image_path, brain_mask_path):
 
 def SkullStrip_HD_Bet(im, cuda_device=0):
     
-    out_path = im.replace('.nii.gz', '_SkullS')
-    masked_im_path = out_path + ".nii.gz"
+    out_path = im.replace('.nii.gz', '_SkullS.nii.gz')
+    masked_im_path = out_path.replace('.nii.gz', "_bet.nii.gz")
 
-    print("Running SkullStripp {}, HD-BET on cuda device {}".format(os.path.basename(im), cuda_device))
-    
-    # Run HD-BET command using subprocess
-    try:
-        subprocess.run([
-            'hd-bet',
-            '-i', im,
-            '-o', out_path,
-            '-device', str(cuda_device)
-        ], check=True)
-    except subprocess.CalledProcessError as e:
-        print("An error occurred while running HD-BET:", e)
-        return None
+    #print("Running SkullStripp {}, HD-BET on cuda device {}".format(os.path.basename(im), cuda_device))
+    if not os.path.exists(out_path):
+        
+        # Run HD-BET command using subprocess
+        try:
+            subprocess.run([
+                'hd-bet',
+                '-i', im,
+                '-o', out_path,
+                '-device', str(cuda_device),
+                '--save_bet_mask'
+            ], check=True)
+        except subprocess.CalledProcessError as e:
+            print("An error occurred while running HD-BET:", e)
+            return None
+    else:
+        print(f"{out_path} already exists")
 
-    return masked_im_path
+    return out_path, masked_im_path
 
 def N4Biasfield_correction(image_path):
         
