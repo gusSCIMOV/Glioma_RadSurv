@@ -1,9 +1,11 @@
 
 dirs:
-  input_dicoms: '_testDicom'
-  raw_nifti: '_test_raw_nifti'
-  preprocessed: "_test_preprocessed"
+  raw_dicoms: 'dicom_raw'
+  input_dicoms: 'dicom_structuralMRI'
+  raw_nifti: 'nifti_raw'
+  preprocessed: "preprocessed"
   metadata: "Metadata"
+  logs: "logs"
 
 #pre-processign pipelines / parameters
  
@@ -11,21 +13,35 @@ preprocessing_settings:
   query_nifti_file: 'niiQuery.csv'
   acquisition_tag: 'Baseline'
   query_key: 'included_modality'
+  mri_modalities: ["T1c","T1","T2","FLAIR"]
 
 ants_preprocessing:
   first_step: 
-    name: "T1c_SRI24Map"
+    name: "Modality_2_atlas_reg"
     mri_str: "T1c" 
     atlas_str: "SRI24"
+    ext: ".nii.gz"
+    mask_str: None
+    aff_metric : "mattes"
+    type_of_transform : "Affine"
+    transforming_mask: False
+    brain_mask: None # HD_BET or Atlas_mask Default= None
+
+  second_step: 
+    name: "Modalities_coregistration"
+    ext: ".nii.gz"
     aff_metric : "mattes"
     type_of_transform : "Affine"
     transforming_mask: False
     SkullStripp: None # HD_BET or Atlas_mask Default= None
 
-  second_step: "T1c_coregistration"
-  third_step:  "HD_SkullStripp"
-  fourth_step: "N4Bias_correction"
-  fifth_step:  "IntensityScaling"
+  third_step: 
+    name: "HD_SkullStripp"
+
+  fourth_step: 
+    name: "N4Bias_correction"
+  fifth_step:  
+    name: "IntensityScaling"
 
 # image_resize:
 #   first_step: "T1c_coregistration"

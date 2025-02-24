@@ -1,4 +1,6 @@
-root_path: '/app/Data/_Brain/Radiology/_Adult/_Glioma' # data folder (parent)
+root_path: '/app/Glioma' # data folder (parent)
+#root_path: '/app/Data/_Brain/Radiology/_Adult/_Glioma' # data folder (parent)
+#root_path: 'Y:/Groups/IDIAGroup/Data/_Brain/Radiology/_Adult/_Glioma'
 
 mri_sites:  # add as many dataset as nedeed (coded by site{n})
   site0: "UCSF-PDGM"
@@ -7,19 +9,21 @@ mri_sites:  # add as many dataset as nedeed (coded by site{n})
   site3: "IVYGAP"
   site4: "xCures"
   site5: "TCGA-GBM"
+  site6: "GBM_Cohort_brucegroup"
 
-mri_data: ["site5"] # data to be included in the pipeline
+mri_data: ["site6"] # data to be included in the pipeline
 
 submodule_configs:
   preprocessing: "config/preprocessing_config.yaml"
   radiomics: "config/radiomics_config.yaml"
-
+  
 # Enabling modules
-run_dicomConversion: False
+run_dicomSelection: False
+run_dicomConversion: True
 run_niftiSelection: False 
-run_preprocessing: True
+run_preprocessing: False
 run_segmentation: False
-run_radiomics: True
-run_survival_train: True
+run_radiomics: False
+run_survival_train: False
 run_survival_test: False
 run_feature_visualization: False
