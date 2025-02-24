@@ -11,7 +11,6 @@ import shutil
 
 from pathlib import Path
 from datetime import datetime
- 
 
 class MRI_DataCheck:
     def __init__(self, mri_data,subdir_data,root_path, metadata_dir):
@@ -125,8 +124,9 @@ class MRI_DataCheck:
         print(f"found {sorted_df.shape[0]} unique Case Ids")
 
         if write_csv:
-            outname=os.path.join(self.root_path,
-                                          self.mri_data,self.metadata_dir,outstr)
+            outfolder=os.path.join(self.root_path,self.mri_data,self.metadata_dir)
+            os.makedirs(outfolder, exist_ok=True)
+            outname=os.path.join(outfolder,outstr)
             sorted_df.to_csv(outname, index=False)
             print(f"saved as {outname}")
         else:
@@ -251,20 +251,22 @@ class MRI_DataCheck:
 
 
 
-def getting_image_list(root_path, mri_data,subdir,time_point,mri_mod,pipeline,ext,mask_str):
+def getting_image_list(input_dir,time_point,mri_mod,ext,mask_str, pipeline=''):
     #root_path = '/app/Data/_Brain/Radiology/_Adult/_Glioma/'
-    main_path=os.path.join(root_path , mri_data, subdir,'*',time_point, '*'+ mri_mod + pipeline + ext)
-    print('main_path',main_path)
+    main_path=os.path.join(input_dir,'*',time_point, '*'+ mri_mod + pipeline + ext)
+    #print('main_path',main_path)
     imgs = glob.glob(main_path)
     imgs=sorted(imgs)
-    print('\n number of MRI scans: {} , for MRI modality: {}'.format(len(imgs), mri_mod))
     
-    main_path=os.path.join(root_path , mri_data, subdir,'*',time_point, '*' + mask_str +'.nii*')
-    labels = glob.glob(main_path)
-    labels=sorted(labels)
-    print('\n number of segmentation files: {}'.format(len(labels)))
- 
-    return labels, imgs
+    if mask_str != None:
+        main_path=os.path.join(input_dir,'*',time_point, '*' + mask_str +'.nii*')
+        labels = glob.glob(main_path)
+        labels=sorted(labels)
+        #print('\n number of segmentation files: {}'.format(len(labels)))
+    else:
+        labels=mask_str
+    
+    return imgs, labels
 
 def getting_images_list_from_csv(root_path,mri_data,subdir,mri_mod,file_xlsx_list,df_key, mask_str, 
                                 ID_filtering=False, time_filtering=False, time_point=None, pipeline=None, print_search=False):
@@ -357,5 +359,9 @@ def Pairing_mri(mov_img, ref_imgs, ID_level=-3):
 
         
     return  id_label, ref_im
+
+def safe_log(msg):
+    return msg.encode("ascii", "ignore").decode()  # Removes non-ASCII characters for loggers
+
 
     

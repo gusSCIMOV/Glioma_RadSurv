@@ -1,4 +1,6 @@
 import logging
+import sys
+
 
 def setup_logging(log_file="pipeline.log", log_level=logging.DEBUG):
     """
@@ -9,13 +11,17 @@ def setup_logging(log_file="pipeline.log", log_level=logging.DEBUG):
     - log_file (str): Path to the log file.
     - log_level (int): Logging level, e.g., logging.DEBUG, logging.INFO.
     """
+
+    sys.stdout.reconfigure(encoding='utf-8')
+
     # Define the logging format
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
     # Set up logging handlers
     handlers = [
         logging.StreamHandler(),  # Log to console
-        logging.FileHandler(log_file, mode="w")  # Log to a file
+        logging.FileHandler(log_file, mode="w"),  # Log to a file
+        logging.StreamHandler(sys.stdout)
     ]
 
     # Configure the logging system
@@ -27,4 +33,4 @@ def setup_logging(log_file="pipeline.log", log_level=logging.DEBUG):
 
     # Add a success message after logging is configured
     logger = logging.getLogger(__name__)
-    logger.info("✅ Logging is configured successfully.")
+    logger.info(" Logging is configured successfully.")

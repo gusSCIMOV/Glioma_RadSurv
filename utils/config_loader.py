@@ -10,12 +10,14 @@ class Config2Struct:
 
 def load_config(config_path):
     """Loads a YAML configuration file."""
+    
     with open(config_path, "r") as file:
         return yaml.safe_load(file)
 
 def load_all_configs(general_config_path):
     """Loads the general config and merges submodule configs."""
     # Load general configuration
+    
     general_config = load_config(general_config_path)
 
     # Load submodule configurations
