@@ -47,7 +47,7 @@ def MRI_preprocessing(configs, project_path):
             dcm_converter.convert_dataset_to_nifti()
 
 
-            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.metadata) # from utils.generic
+            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.logs) # from utils.generic
             MRIQc.browse_nifti_modalities(time_format='dates',modalities_list=True, write_csv=True)
             MRIQc.browse_nifti_modalities(time_format='dates',summary=True, write_csv=True)
 
@@ -58,7 +58,7 @@ def MRI_preprocessing(configs, project_path):
             logger.info(safe_log(f" Starting Nifti selection for {dirs.raw_nifti} "))
 
             
-            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.metadata) # from utils.generic
+            MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.logs) # from utils.generic
             MRIQc.copy_and_rename_files(pp_settings, dirs.raw_nifti, dirs.preprocessed)
             
             logger.info(safe_log(f" Nifti SELECTION DONE for {dataset}"))

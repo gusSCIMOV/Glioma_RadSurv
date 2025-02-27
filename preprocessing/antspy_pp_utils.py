@@ -9,6 +9,7 @@ import ants
 import logging
 import matplotlib.pyplot as plt
 
+from torch.cuda.amp import GradScaler
 from pathlib import Path
 from collections import OrderedDict
 from ants import resample_image
@@ -60,7 +61,7 @@ class MRIPreprocessing:
                 self.logger.debug('number of MRI scans: {} , for MRI modality: {}'.format(len(self.imgs), self.params.mri_str))
 
                 self.atlas_regis_ls=[]
-                for im in self.imgs:
+                for im in list(self.imgs[:]):
                     registered_path, id_label=mri_coregistration(im,self.params.ext,
                                         self.params.type_of_transform,
                                         self.params.aff_metric,
@@ -110,14 +111,17 @@ class MRIPreprocessing:
                     coregist_ls.append(mods_coregist)
 
                 self.coregist_df=pd.DataFrame(coregist_ls)
-                self.out_df=os.path.join(self.gen_config.root_path,self.dataset,self.dirs.metadata)
+                self.out_df=os.path.join(self.gen_config.root_path,self.dataset,self.dirs.logs)
                 os.makedirs(self.out_df, exist_ok=True)
                 outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
                 self.coregist_df.to_csv(outfile, index=False)
             
             if self.params.name == "HD_SkullStripp":
 
-                logging.debug("HD-BET Skull Stripping, fix around to enable alimited number of GPUs")
+                logging.debug("HD-BET Skull Stripp, fix around to enable a limited number of GPUs")
+                logging.debug("HD-BET Skull Stripp, fixed /usr/local/lib/python3.10/dist-packages/nnunetv2/training/nnUNetTrainer/nnUNetTrainer.py ")
+                logging.debug("see the ./preprocessing/SkullStripping_tool/nnUNET_fix_ import check")
+
                 self.skulls_df = self.coregist_df.copy()
                 ssimages=[]
                 # reference image    
@@ -127,7 +131,6 @@ class MRIPreprocessing:
                         ssimages.append((masked_im,brain_mask))
                         self.skulls_df.iloc[ind,1]=masked_im
                         print("masked_im >>>>>", masked_im)
-
                             
                     except Exception as e:
                         print(f"\n any exception ocurred {e}")
@@ -145,6 +148,24 @@ class MRIPreprocessing:
                 os.makedirs(self.out_df, exist_ok=True)
                 outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
                 self.skulls_df.to_csv(outfile, index=False)
+
+            if self.params.name == "N4Bias_correction":
+
+                self.biasc_df = self.skulls_df.copy()
+
+                # all modalities
+                for ind, _ in enumerate(self.coregist_df.iloc[:, 1].tolist()): 
+                    for col in self.coregist_df.columns[1:]:  # I
+                        mri_mod = self.biasc_df.loc[ind, col]
+
+                        if mri_mod != "NO_Modality":
+                            biasc_im=N4Biasfield_correction(mri_mod) 
+                            self.biasc_df.loc[ind,col]=biasc_im
+            
+                os.makedirs(self.out_df, exist_ok=True)
+                outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
+                self.biasc_df.to_csv(outfile, index=False)
+
 
 
 def mri_coregistration(im,ext,type_transform,aff_metric,subdir,out_subdir,
@@ -489,7 +510,7 @@ def SkullStrip_HD_Bet(im, cuda_device=0):
 
 def N4Biasfield_correction(image_path):
         
-    o_biascorrect=image_path.replace(".nii.gz", "_BiasCorrect.nii.gz")
+    o_biascorrect=image_path.replace(".nii.gz", "_BiasC.nii.gz")
     if os.path.exists(o_biascorrect):
         print(f"{o_biascorrect} already exists")
         return o_biascorrect

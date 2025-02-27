@@ -159,14 +159,24 @@ def copy_subject(input_dir,folder,time_point_folder,out_root, uncompress=False):
                         elif series_description.find('t1')>=0 and series_description.find('sag')>=0:
                             #print('t1')
                             target_dcm=dcm_path
-                         
+
+                        elif series_description.find('t1')>=0 and series_description.find('mpr')>=0:
+                            #print('t1')
+                            target_dcm=dcm_path 
+                        elif series_description.find('t1')>=0 and series_description.find('tra')>=0:
+                            #print('t1')
+                            target_dcm=dcm_path 
+                        
+                        elif series_description.find('t1')>=0 and series_description.find('3d')>=0:
+                            #print('t1')
+                            target_dcm=dcm_path 
 
                         elif series_description.find('+c')>=0 and series_description.find('ax')>=0:
                             # print('t1c')
                             
                             target_dcm=dcm_path
                         
-                        elif series_description.find('flair')>=0 or series_description.find('t2')>=0 :
+                        elif series_description.find('flair')>=0 or series_description.find('t2')>=0  or series_description.find('fse')>=0:
                             target_dcm=dcm_path
                             
 
