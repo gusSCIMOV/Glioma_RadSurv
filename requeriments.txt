@@ -2,6 +2,7 @@
 dicom2nifti
 pydicom
 PyYAML
+pandas
 
 # MRI preprocessing
 nilearn
