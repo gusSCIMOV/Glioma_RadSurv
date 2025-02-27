@@ -112,7 +112,7 @@ class MRI_DataCheck:
                                     'time_point (date)': timepoint,
                                     'n_modalities_timepoint': n_mri,
                                     'acquisition_tag': interval_tag,
-                                    'Acquistion interval (days)': interval,
+                                    'acquisition interval (days)': interval,
                                     'Cumulative time from T-0 (days)': date,
                                     'n_time_points': n_studies
                                 })
@@ -152,7 +152,7 @@ class MRI_DataCheck:
         Returns:
             None
         """
-        # read query file (check the TRUE codigin inside the query_file.csv)
+        # read query file (check the TRUE coding inside the query_file.csv)
         base_path=os.path.join(self.root_path,self.mri_data)
 
         qfile_str=f"{self.mri_data}_{self.subdir}_modalities_{pp_settings.query_nifti_file}"
