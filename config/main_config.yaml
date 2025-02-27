@@ -19,11 +19,12 @@ submodule_configs:
   
 # Enabling modules
 run_dicomSelection: False
-run_dicomConversion: True
+run_dicomConversion: False
 run_niftiSelection: False 
-run_preprocessing: False
+run_preprocessing: True
 run_segmentation: False
 run_radiomics: False
 run_survival_train: False
 run_survival_test: False
+run_deep_learning: False
 run_feature_visualization: False
