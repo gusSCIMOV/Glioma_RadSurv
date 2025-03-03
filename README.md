@@ -97,7 +97,7 @@ See the ./config files
 
 ### **General Seetings (main_config.ymal)**
 
-Modify the dict entries accordingly. Enable the desired steps (by setting True).
+Modify the dict entries accordingly. If you want single site-validation on the test data (TCGA-GBM), enable mri_data: ["site3"] (see  below). Then, enable the desired steps (by setting True).
 
 ```yaml
 
@@ -108,6 +108,7 @@ mri_sites:  # add as many dataset as nedeed (coded by site{n})
   site0: "UCSF-PDGM"
   site1: "LUMIERE"
   site2: "CCF"
+  site3: "TCGA-GBM"
 
 mri_data: ["site1", "site2"] # data to be included in the pipeline
 
