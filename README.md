@@ -45,7 +45,10 @@ bash bash_requeriments.sh
 ```
 
 ## **Data Preparation**
-Input (nifti_raw) and output (preprocessed) Data is expected to have this Hierarchy (below) per MRI collection. It is 
+
+Find out some sample data (TCGA-GBM) over : https://uwmadison.box.com/s/t2258zrb4izrwp6te5jjqedl7rzjmgs5 . Make sure to get the whole source downloaded. To run nifti_selection you must make sure that nifti_raw_modalities_niiQuery.csv is inside of the data/{mri_site}/logs folder.
+
+Input (nifti_raw) and output (preprocessed) Data and Logs/Metadata are expected to have this Hierarchy (below) per MRI collection. It is 
 ```txt
 
 |TCGA-GBM (site1)
@@ -86,7 +89,10 @@ Input (nifti_raw) and output (preprocessed) Data is expected to have this Hierar
           | {patient_ID}_FLAIR_{pipeline}.nii.gz​
           |---{patient_ID}_segmentation_{network}.nii.gz
 
-  |--Metadata​
+   |--logs
+   --nifti_raw_modalities_niiQuery.csv (unique per dataset to retrive strcutural modalities)​
+   
+   |--Metadata​
    --{data_set}_lables.csv (survival times, demographics, clinics: final datset)​
    --{data_set}_QC.xlsx (Quality check results, missing modality, low quality images)​
    --{data_set}_completness.xlsx (other dataset annotations, info)​
