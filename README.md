@@ -60,10 +60,10 @@ Input (nifti_raw) and output (preprocessed) Data is expected to have this Hierar
 |--nifit_raw
    |---{Patient_ID}​
          | --time_point_0​ (or Baseline for Pre-Op)
-         | {patient_ID}_{Ax T1}.nii.gz (dcm folder)
-         | {patient_ID}_{Ax [T2, GRE]}.nii.gz​ (dcm folder)
-         | {patient_ID}_{Ax 3D [SPGR T1 c+ gd]}.nii.gz (dcm folder)​
-         | {patient_ID}_{Ax T2-FLAIR}.nii.gz  (dcm_folder)
+         | {patient_ID}_{Ax T1}.nii.gz 
+         | {patient_ID}_{Ax [T2, GRE]}.nii.gz​ 
+         | {patient_ID}_{Ax 3D [SPGR T1 c+ gd]}.nii.gz 
+         | {patient_ID}_{Ax T2-FLAIR}.nii.gz  
 
  |--preprocessed   (Before preprocessing)
     |---{Patient_ID}​
