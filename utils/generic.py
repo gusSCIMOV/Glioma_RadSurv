@@ -104,7 +104,7 @@ class MRI_DataCheck:
                                     'n_modalities_per_case': n_mri
                                 })
                     
-                        outstr=f"{self.mri_data}_{self.subdir}_modalities.csv"
+                        outstr=f"{self.subdir}_modalities.csv"
 
                     if summary:         
                         data.append({
@@ -117,7 +117,7 @@ class MRI_DataCheck:
                                     'n_time_points': n_studies
                                 })
                         
-                        outstr=f"{self.mri_data}_{self.subdir}_summary.csv"
+                        outstr=f"{self.subdir}_summary.csv"
 
         folders_df=pd.DataFrame(data)
         sorted_df = folders_df
@@ -126,11 +126,13 @@ class MRI_DataCheck:
         if write_csv:
             outfolder=os.path.join(self.root_path,self.mri_data,self.metadata_dir)
             os.makedirs(outfolder, exist_ok=True)
+            #print("outfolder,outstr",outfolder,outstr)
             outname=os.path.join(outfolder,outstr)
             sorted_df.to_csv(outname, index=False)
-            print(f"saved as {outname}")
+            self.logger.info(f"summary csv saved as: {outname}")
         else:
-            print(f"enable write_csv=True to write a csv summary ")
+            
+            self.logger.info(f"enable write_csv=True to write a csv summary ")
 
         return sorted_df
     def to_construct_queryFile():
@@ -155,7 +157,7 @@ class MRI_DataCheck:
         # read query file (check the TRUE coding inside the query_file.csv)
         base_path=os.path.join(self.root_path,self.mri_data)
 
-        qfile_str=f"{self.mri_data}_{self.subdir}_modalities_{pp_settings.query_nifti_file}"
+        qfile_str=f"{self.subdir}_modalities_{pp_settings.query_nifti_file}"
         qfile_path=os.path.join(base_path,self.metadata_dir,qfile_str)
         q_file=pd.read_csv(qfile_path)
 
@@ -195,8 +197,11 @@ class MRI_DataCheck:
             
             file_path=os.path.join(source_path, filename)
             target_file = os.path.join(target_path, new_filename)
-            shutil.copy2(file_path, target_file)  # Copy with metadata preserved
-            print(f"Copied and renamed: {file_path} -> {target_file}")
+            try:
+                shutil.copy2(file_path, target_file)  # Copy with metadata preserved
+                print(f"Copied and renamed: {file_path} -> {target_file}")
+            except Exception as e:
+                print(f"{file_path} does not exist")
 
 
     def print_folder_tree(self, max_depth=2):
