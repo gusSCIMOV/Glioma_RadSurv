@@ -1,0 +1,13 @@
+ID,time_point,acquisition_tag,mri_modalities (original nifti),n_modalities_per_case,included_modality,mri_tag
+TCGA-02-0059,19990829,Baseline,Ax SE T1 Post.nii.gz,1,TRUE,T1c
+TCGA-02-0060,20000228,Baseline,Axial T2.nii.gz,2,TRUE,T2
+TCGA-02-0060,20000228,Baseline,3D AX FSPGR POST.nii.gz,2,TRUE,T1c
+TCGA-06-0128,19990218,Baseline,AXIAL T1 PRE GD.nii.gz,3,TRUE,T1
+TCGA-06-0128,19990218,Baseline,AXIAL FLAIR.nii.gz,3,TRUE,FLAIR
+TCGA-06-0128,19990218,Baseline,AXIAL DIFFUSION.nii.gz,3,,
+TCGA-06-0128,19990219,time01,AXIAL T1 PRE GD.nii.gz,2,TRUE,T1
+TCGA-06-0128,19990219,time01,AXIAL T1 POST GD.nii.gz,2,TRUE,T1c
+TCGA-02-0054,19990516,Baseline,AX FLAIR.nii.gz,4,TRUE,FLAIR
+TCGA-02-0054,19990516,Baseline,AX T1 POST.nii.gz,4,TRUE,T1c
+TCGA-02-0054,19990516,Baseline,AX T2 FSE.nii.gz,4,TRUE,T2
+TCGA-02-0054,19990516,Baseline,AX T1.nii.gz,4,TRUE,T1
