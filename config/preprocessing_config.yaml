@@ -1,11 +1,11 @@
 
 dirs:
   raw_dicoms: 'dicom_raw'
-  input_dicoms: 'dicom_structuralMRI'
-  raw_nifti: 'nifti_raw'
-  preprocessed: "preprocessed"
+  input_dicoms: 'dicom_structuralMRI_gp'
+  raw_nifti: 'nifti_raw_gp'
+  preprocessed: "preprocessed_gp"
   metadata: "Metadata"
-  logs: "logs"
+  logs: "logs_gp"
 
 #pre-processign pipelines / parameters
  
