@@ -29,7 +29,7 @@ def MRI_preprocessing(configs, project_path):
 
         if gen_config.run_dicomSelection:
             
-            logger.info(safe_log(f"{dataset} Starting dicom selection"))
+            logger.info(f"{dataset} Starting dicom selection")
 
             raw_dcm_path=os.path.join(root_path,dataset,dirs.raw_dicoms)
             dcm_path=os.path.join(root_path,dataset,dirs.input_dicoms)
@@ -39,7 +39,7 @@ def MRI_preprocessing(configs, project_path):
 
         if gen_config.run_dicomConversion:  # running dicom to nifti conversion (set input and output directory)
                 
-            logger.info(safe_log(f"{dataset} Starting dicom conversion"))
+            logger.info(f"{dataset} Starting dicom conversion")
                     
             dcm_path=os.path.join(root_path,dataset,dirs.input_dicoms)
             nii_gz_path=os.path.join(root_path,dataset,dirs.raw_nifti)
@@ -51,22 +51,22 @@ def MRI_preprocessing(configs, project_path):
             MRIQc.browse_nifti_modalities(time_format='dates',modalities_list=True, write_csv=True)
             MRIQc.browse_nifti_modalities(time_format='dates',summary=True, write_csv=True)
 
-            logger.info(safe_log(f" DICOM CONVERSION DONE FOR {dataset}"))
+            logger.info(f" DICOM CONVERSION DONE FOR {dataset}")
 
         if gen_config.run_niftiSelection: # run quality check to retrieve the structural modalities:
 
-            logger.info(safe_log(f" Starting Nifti selection for {dirs.raw_nifti} "))
+            logger.info(f" Starting Nifti selection for {dirs.raw_nifti} ")
 
             
             MRIQc=MRI_DataCheck(dataset, dirs.raw_nifti, root_path, dirs.logs) # from utils.generic
             MRIQc.copy_and_rename_files(pp_settings, dirs.raw_nifti, dirs.preprocessed)
             
-            logger.info(safe_log(f" Nifti SELECTION DONE for {dataset}"))
+            logger.info(f" Nifti SELECTION DONE for {dataset}")
 
 
         if gen_config.run_preprocessing:  # set the customized pipeline (preprocessing_config.yaml)
 
-            logger.info(safe_log(f" Starting MRI Preprocessing"))
+            logger.info(f" Starting MRI Preprocessing for {dataset}")
 
             pp_config = Config2Struct(configs["preprocessing"]["ants_preprocessing"])
             #get_config_params(pp_config) # print Config attributtes 
@@ -74,11 +74,6 @@ def MRI_preprocessing(configs, project_path):
             MRIpp=MRIPreprocessing(dataset, dirs, gen_config, pp_settings, pp_config) # from preprocessing.ants_pp_utils
             
             MRIpp.run_pipeline()
-
-
-
-            
-            
 
                          
             # if pp_config.xlsx_file != None:

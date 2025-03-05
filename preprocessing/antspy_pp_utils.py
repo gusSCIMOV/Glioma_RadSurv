@@ -42,7 +42,7 @@ class MRIPreprocessing:
 
         for stepp, params in vars(self.pp_config).items():
             self.params=Config2Struct(params)
-            self.logger.info(f" PREPROCESSING {stepp} >>> {self.params.name}") # check config.preprocessing_config.yaml order is correct
+            self.logger.info(f" PREPROCESSING {stepp} >>> {self.params.name}") # check config.preprocessing_config.yaml order 
 
             if self.params.name == "Modality_2_atlas_reg":
                 
@@ -72,6 +72,8 @@ class MRIPreprocessing:
                                         mapping="forward_mapping", 
                                         write_registered=True, ID_level=-3)
                     self.atlas_regis_ls.append((im,registered_path))
+                
+                outfile=None
                 
             if self.params.name == "Modalities_coregistration":
                 
@@ -113,7 +115,7 @@ class MRIPreprocessing:
                 self.coregist_df=pd.DataFrame(coregist_ls)
                 self.out_df=os.path.join(self.gen_config.root_path,self.dataset,self.dirs.logs)
                 os.makedirs(self.out_df, exist_ok=True)
-                outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
+                outfile=f"{self.out_df}/{self.params.name}.csv"
                 self.coregist_df.to_csv(outfile, index=False)
             
             if self.params.name == "HD_SkullStripp":
@@ -146,7 +148,7 @@ class MRIPreprocessing:
                             self.skulls_df.loc[ind,col]=masked_im
             
                 os.makedirs(self.out_df, exist_ok=True)
-                outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
+                outfile=f"{self.out_df}/{self.params.name}.csv"
                 self.skulls_df.to_csv(outfile, index=False)
 
             if self.params.name == "N4Bias_correction":
@@ -163,9 +165,10 @@ class MRIPreprocessing:
                             self.biasc_df.loc[ind,col]=biasc_im
             
                 os.makedirs(self.out_df, exist_ok=True)
-                outfile=f"{self.out_df}/{self.dataset}_{self.params.name}.csv"
+                outfile=f"{self.out_df}/{self.params.name}.csv"
                 self.biasc_df.to_csv(outfile, index=False)
 
+            logging.info(f"PREPROCESSING {self.params.name} log file saved as :  {outfile}")
 
 
 def mri_coregistration(im,ext,type_transform,aff_metric,subdir,out_subdir,

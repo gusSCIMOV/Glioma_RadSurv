@@ -275,7 +275,7 @@ def DicomSelection(main_path, out_root, log_path, n_studies=1):
 
     final_df = pd.DataFrame()
 
-    for i, folder in enumerate(folder_list[:], start=0):
+    for i, folder in enumerate(folder_list[0:2], start=0):
     # for folder in folder_list:
         # print(folder)
         print(f'{folder} ->>>>>> Case {i+1} of {len(folder_list)}')
@@ -308,8 +308,12 @@ def DicomSelection(main_path, out_root, log_path, n_studies=1):
                     print(folder)
         else:
             logging.debug(f"no valid time acquistion data (None) in {folder}")
-    os.makedirs(log_path, exist_ok=True)                         
-    final_df.to_excel(f"{log_path}/log_DicomConversion.xlsx")  
+    os.makedirs(log_path, exist_ok=True)   
+    outname=f"{log_path}/log_dicomSelection.xlsx"                      
+    final_df.to_excel(outname)
+    
+    if os.path.exists(outname):
+        logging.info(f"dicomSelection completed:log file :{outname}")
 
     #%%
 
