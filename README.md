@@ -46,7 +46,7 @@ bash bash_requeriments.sh
 
 ## **Data Preparation**
 
-Find out some sample data (TCGA-GBM) over : https://uwmadison.box.com/s/t2258zrb4izrwp6te5jjqedl7rzjmgs5 . Make sure to get the whole source downloaded. To run nifti_selection you must make sure that nifti_raw_modalities_niiQuery.csv is inside of the data/{mri_site}/logs folder.
+Find out some sample data (TCGA-GBM) over : https://uwmadison.box.com/s/t2258zrb4izrwp6te5jjqedl7rzjmgs5 . Make sure to get the whole source downloaded. To run nifti_selection you must make sure that nifti_raw_modalities_niiQuery.csv is inside of the data/{mri_site}/logs folder and keep the "dirs" entries preprocessing_config.ymal as set up by default (see below (#modules-configuration)).
 
 Input (nifti_raw) and output (preprocessed) Data and Logs/Metadata are expected to have this Hierarchy (below) per MRI collection. It is 
 ```txt
