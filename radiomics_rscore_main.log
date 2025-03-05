@@ -1,0 +1,38 @@
+2025-03-05 02:09:03,137 - utils.logger_setup - INFO -  Logging is configured successfully.
+2025-03-05 02:09:03,137 - __main__ - INFO -  Starting radiomics risk score MRI pipeline...
+2025-03-05 02:09:03,137 - __main__ - INFO -  Loading modules configuration: YAML keys are directly mapped as attributes in Config2Struct object: see config.confi_loader.py ...
+2025-03-05 02:09:03,150 - preprocessing.preprocessing_core - INFO - GBM_Cohort_brucegroup/UW-GBM Starting dicom selection
+2025-03-05 02:09:42,432 - root - INFO - dicomSelection completed:log file :/app/Data/_Brain/Radiology/_Adult/_Glioma/GBM_Cohort_brucegroup/UW-GBM/logs_gp/log_dicomSelection.xlsx
+2025-03-05 02:09:42,432 - preprocessing.preprocessing_core - INFO - GBM_Cohort_brucegroup/UW-GBM Starting dicom conversion
+2025-03-05 02:09:43,107 - dicom2nifti.convert_dicom - INFO - Found manufacturer: GE
+2025-03-05 02:09:43,112 - dicom2nifti.convert_ge - INFO - Reading and sorting dicom files
+2025-03-05 02:09:43,114 - dicom2nifti.convert_ge - INFO - Found sequence type: 4D
+2025-03-05 02:09:43,114 - dicom2nifti.convert_generic - INFO - Creating data block
+2025-03-05 02:09:43,114 - dicom2nifti.convert_generic - INFO - Creating block 1 of 3
+2025-03-05 02:09:43,128 - dicom2nifti.convert_generic - INFO - Creating block 2 of 3
+2025-03-05 02:09:43,157 - dicom2nifti.convert_generic - INFO - Creating block 3 of 3
+2025-03-05 02:09:43,193 - dicom2nifti.convert_generic - WARNING - Missing slices (slice count mismatch between timepoint 0 and 1)
+2025-03-05 02:09:43,193 - dicom2nifti.convert_generic - WARNING - ---------------------------------------------------------
+2025-03-05 02:09:43,193 - dicom2nifti.convert_generic - WARNING - (512, 512, 5)
+2025-03-05 02:09:43,193 - dicom2nifti.convert_generic - WARNING - (512, 512, 12)
+2025-03-05 02:09:43,193 - dicom2nifti.convert_generic - WARNING - ---------------------------------------------------------
+2025-03-05 02:09:43,534 - MRI_DataCheck - INFO - summary csv saved as: /app/Data/_Brain/Radiology/_Adult/_Glioma/GBM_Cohort_brucegroup/UW-GBM/logs_gp/nifti_raw_gp_modalities.csv
+2025-03-05 02:09:43,550 - MRI_DataCheck - INFO - summary csv saved as: /app/Data/_Brain/Radiology/_Adult/_Glioma/GBM_Cohort_brucegroup/UW-GBM/logs_gp/nifti_raw_gp_summary.csv
+2025-03-05 02:09:43,550 - preprocessing.preprocessing_core - INFO -  DICOM CONVERSION DONE FOR GBM_Cohort_brucegroup/UW-GBM
+2025-03-05 02:09:43,550 - preprocessing.preprocessing_core - INFO -  Starting Nifti selection for nifti_raw_gp 
+2025-03-05 02:09:51,772 - preprocessing.preprocessing_core - INFO -  Nifti SELECTION DONE for GBM_Cohort_brucegroup/UW-GBM
+2025-03-05 02:09:51,773 - preprocessing.preprocessing_core - INFO -  Starting MRI Preprocessing for GBM_Cohort_brucegroup/UW-GBM
+2025-03-05 02:09:51,773 - MRIPreprocessing - INFO -  PREPROCESSING first_step >>> Modality_2_atlas_reg
+2025-03-05 02:09:51,787 - MRIPreprocessing - DEBUG - number of MRI scans: 4 , for MRI modality: T1c
+2025-03-05 02:11:18,585 - root - INFO - PREPROCESSING Modality_2_atlas_reg log file saved as :  None
+2025-03-05 02:11:18,586 - MRIPreprocessing - INFO -  PREPROCESSING second_step >>> Modalities_coregistration
+2025-03-05 02:13:32,430 - root - INFO - PREPROCESSING Modalities_coregistration log file saved as :  /app/Data/_Brain/Radiology/_Adult/_Glioma/GBM_Cohort_brucegroup/UW-GBM/logs_gp/Modalities_coregistration.csv
+2025-03-05 02:13:32,430 - MRIPreprocessing - INFO -  PREPROCESSING third_step >>> HD_SkullStripp
+2025-03-05 02:13:32,430 - root - DEBUG - HD-BET Skull Stripp, fix around to enable a limited number of GPUs
+2025-03-05 02:13:32,430 - root - DEBUG - HD-BET Skull Stripp, fixed /usr/local/lib/python3.10/dist-packages/nnunetv2/training/nnUNetTrainer/nnUNetTrainer.py 
+2025-03-05 02:13:32,431 - root - DEBUG - see the ./preprocessing/SkullStripping_tool/nnUNET_fix_ import check
+2025-03-05 02:15:22,747 - root - INFO - PREPROCESSING HD_SkullStripp log file saved as :  /app/Data/_Brain/Radiology/_Adult/_Glioma/GBM_Cohort_brucegroup/UW-GBM/logs_gp/HD_SkullStripp.csv
+2025-03-05 02:15:22,747 - MRIPreprocessing - INFO -  PREPROCESSING fourth_step >>> N4Bias_correction
+2025-03-05 02:17:21,560 - root - INFO - PREPROCESSING N4Bias_correction log file saved as :  /app/Data/_Brain/Radiology/_Adult/_Glioma/GBM_Cohort_brucegroup/UW-GBM/logs_gp/N4Bias_correction.csv
+2025-03-05 02:17:21,560 - MRIPreprocessing - INFO -  PREPROCESSING fifth_step >>> IntensityScaling
+2025-03-05 02:17:21,560 - root - INFO - PREPROCESSING IntensityScaling log file saved as :  /app/Data/_Brain/Radiology/_Adult/_Glioma/GBM_Cohort_brucegroup/UW-GBM/logs_gp/N4Bias_correction.csv

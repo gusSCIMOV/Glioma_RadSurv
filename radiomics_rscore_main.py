@@ -9,13 +9,15 @@ from utils.logger_setup import *
 #
 #os.environ["PYTHONUTF8"] = "1"
 
+# project PATH/NAME
+project_path = os.path.dirname(os.path.abspath(__file__))
+main_log = os.path.basename(__file__).replace("py","log")
+
 # Logging setup
-setup_logging(log_file="DicoConversion.log", log_level=logging.DEBUG)
+setup_logging(log_file=f"{main_log}", log_level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 logger.info(" Starting radiomics risk score MRI pipeline...")
 
-# project PATH
-project_path = os.path.dirname(os.path.abspath(__file__))
 
 def main():
     logger.info(" Loading modules configuration: YAML keys are directly mapped as attributes in Config2Struct object: see config.confi_loader.py ...")
